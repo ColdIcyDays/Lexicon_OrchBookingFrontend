@@ -9,7 +9,7 @@ import tailwindcss from "@tailwindcss/vite";
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "VITE_")
-  const currentTarget : string = "http://localhost:5003"
+  const currentTarget : string = "http://localhost:5003" /*lexicon_orchbookingbackend*/
   return {
     plugins: [
       react(),
