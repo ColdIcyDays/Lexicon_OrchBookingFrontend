@@ -9,7 +9,8 @@ import tailwindcss from "@tailwindcss/vite";
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "VITE_")
-  const currentTarget : string = "http://localhost:5003" /*lexicon_orchbookingbackend*/
+  const currentTarget : string = "http://lexicon_orchbookingbackend:8080" //"http://localhost:5294"//"http://localhost:5003" /*lexicon_orchbookingbackend*/
+  console.log("The current target is: " + currentTarget);
   return {
     plugins: [
       react(),
@@ -20,9 +21,29 @@ export default defineConfig(({ mode }) => {
       host: "0.0.0.0",
       proxy: {
         '/WeatherForecast': {
-          target: currentTarget,
+          target: "http://lexicon_orchbookingbackend:5003",
           changeOrigin: true,
           secure: false
+        },
+        '/api/Blog/GetBlogs': {
+          target: currentTarget,
+          changeOrigin: true,
+          secure: false,
+          configure: (proxy, _options) => {
+            proxy.on('proxyReq', (proxyReq, req, res) => {
+              proxyReq.setHeader("origin", currentTarget);
+            })
+          }
+        },
+        '/api/Blog/UploadBlog': {
+          target: currentTarget,
+          changeOrigin: true,
+          secure: false,
+          configure: (proxy, _options) => {
+            proxy.on('proxyReq', (proxyReq, req, res) => {
+              proxyReq.setHeader("origin", currentTarget);
+            })
+          }
         },
         '/Account/Auth/Login': {
           target: currentTarget,

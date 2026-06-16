@@ -21,7 +21,7 @@ function App() {
 
     console.log("App start!");
   useEffect(() => {
-    fetch('/WeatherForecast')
+    fetch('http://localhost:5003/WeatherForecast')
         .then(async response => {
           if (!response.ok) {
             throw new Error(`Request failed: ${response.status}`)
