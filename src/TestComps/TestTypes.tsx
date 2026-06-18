@@ -11,35 +11,12 @@ export type ModifyUserRole = {
     newRoleName: string
 }
 
-/*
-*
-*    public bool UsePagination { get; set; } = true;
-    public int Page { get; set; } = 0;
-    public int PerPage { get; set; } = 1;
-    public string SortMethod { get; set; } = "date";*/
 export type GetBlogsRequest = {
     UsePagination : boolean
     Page : number
     PerPage : number
     SortMethod : string
 }
-
-
-/*
-*   [Key]
-    public int Id { get; set; }
-    [ForeignKey(nameof(Lexicon_OrchBookingBackendUser))]
-    public int WriterId { get; set; }
-
-    [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-    public DateTime DateCreated { get; set; }
-
-    [Required]
-    public string ContentTitle { get; set; }
-    public string ContentBody { get; set; }
-
-    public string[] Images { get; set; }
-* */
 
 export type Blog = {
     id : number
@@ -53,4 +30,29 @@ export type Blog = {
 export type GetBlogResult = {
     page : number
     foundBlogs : Blog[]
+}
+
+export type Show = {
+    id : number
+    programId : number
+    venueName : string
+    venueAddress : string
+    showDate : Date
+}
+
+export type OrchProgram = {
+    id : number
+    title : string
+    description : string
+    lengthInMinutes : number
+}
+
+export type GetProgramsResult = {
+    page : number
+    foundPrograms : OrchProgram[]
+}
+
+export type GetShowsResult = {
+    page : number
+    foundShows : Show[]
 }

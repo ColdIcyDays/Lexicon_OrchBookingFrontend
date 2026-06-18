@@ -1,1 +1,37 @@
+@import url('https://fonts.googleapis.com/css2?family=Pliant:ital,wght@0,100..900;1,100..900&display=swap');
 @import "tailwindcss";
+
+@theme {
+    /* === FONTS === */
+    --font-pilant: "Pliant", sans-serif;
+
+    /* === COLORS === */
+    --color-*: initial;
+    --color-black: #000000;
+    --color-white: #FFFFFF;
+    --color-primary: var(--orch-primary-color);
+    --color-secondary: var(--orch-secondary-color);
+    --color-accent: var(--orch-accent-color);
+    --color-lightaccent: var(--orch-lightaccent-color);
+    --color-offprimary: var(--orch-offprimary-color);
+    --color-text: var(--orch-text-color);
+    --color-text-dark: var(--orch-text-dark-color);
+}
+
+:root {
+    --orch-primary-color: #822659;
+    --orch-secondary-color: #B34180;
+    --orch-accent-color: #E36BAE;
+    --orch-lightaccent-color: #F8A1D1;
+    --orch-offprimary-color: #ffedf7;
+    --orch-text-color: #FFFFFF;
+    --orch-text-dark-color: #000000;
+}
+
+/*
+Images:
+
+Orchestra hero: https://images.unsplash.com/photo-1519683109079-d5f539e1542f?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D
+https://images.unsplash.com/photo-1519682718457-c82ce8296645?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D
+
+*/

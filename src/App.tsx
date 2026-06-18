@@ -1,71 +1,40 @@
 import './App.css'
-import {useEffect, useState} from "react";
-import {TestLogin} from "./TestComps/TestLogin.tsx";
-
-type WeatherForecast = {
-  date: string
-  temperatureC: number
-  temperatureF: number
-  summary: string
-}
-
-type TestModel = {
-    id : number
-    someText : string
-}
+import {BrowserRouter, Routes, Route, Navigate} from 'react-router-dom';
+import {TopBar} from "./components/topbar/TopBar.tsx";
+import {Footer} from "./components/footer/Footer.tsx";
+import {HomeContainer} from "./components/home/HomeContainer.tsx";
+import {TicketsContainer} from "./components/tickets/TicketsContainer.tsx";
+import {AboutUsContainer} from "./components/aboutus/AboutUsContainer.tsx";
+import {BlogContainer} from "./components/blog/BlogContainer.tsx";
+import {PurchaseContainer} from "./components/tickets/purchase/PurchaseContainer.tsx";
+import {LoginContainer} from "./components/login/LoginContainer.tsx";
+import {ProfileContainer} from "./components/profile/ProfileContainer.tsx";
 function App() {
-  const [forecasts, setForecasts] = useState<WeatherForecast[]>([])
-    const [data, setData] = useState<TestModel | undefined>();
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-
-    console.log("App start!");
-  useEffect(() => {
-    fetch('http://localhost:5003/WeatherForecast')
-        .then(async response => {
-          if (!response.ok) {
-            throw new Error(`Request failed: ${response.status}`)
-          }
-          //const data = (await response.json()) as WeatherForecast[]
-          const indata = (await response.json());
-            console.log("Indate is: " + indata);
-            console.log(indata);
-            console.log(typeof indata);
-            console.log(indata.id);
-            console.log(indata.someText);
-
-            setData(indata);
-            //setData(response.text.toString());
-        })
-        .catch(err => setError(err.message))
-        .finally(() => setLoading(false))
-  }, [])
-
-  if (loading) {
-    return <p>Loading weather data...</p>
-  }
-
-  if (error) {
-    return <p>Error: {error}</p>
-  }
-
-  if (data == undefined){
-      return <p>Undefined</p>
-  }
-
   return (
-    <>
-      <div>
-        <p>Hello, login here:</p>
-        <TestLogin/>
+    <BrowserRouter>
+      <div className={"flex flex-col min-h-lvh min-w-lvw max-h-max bg-white"}>
+          <TopBar/>
+          <Routes>
+              {/*<Route path={"*"} element={<Navigate to={"/Home"}/>}/>*/}
+              <Route path={"/"} element={<Navigate to={"/Home"}/>}/>
+              <Route path={"/Home"} element={<HomeContainer/>}/>
+
+              <Route path={"/Blog"} element={<BlogContainer/>}>
+                  <Route path={":article"} element={null}/>
+              </Route>
+
+              <Route path={"/User"} element={<ProfileContainer/>}/>
+              <Route path={"/User/Login"} element={<LoginContainer/>}/>
+              <Route path={"/User/Register"} element={<LoginContainer/>}/>
+
+              <Route path={"/Tickets&Shows"} element={<TicketsContainer/>}/>
+              <Route path={"/Tickets&Shows/PurchaseTicket"} element={<PurchaseContainer/>}/>
+
+              <Route path={"/Aboutus"} element={<AboutUsContainer/>}/>
+          </Routes>
+          <Footer/>
       </div>
-      <div>
-        <p>
-            {data.id}
-            {data.someText}
-        </p>
-      </div>
-    </>
+    </BrowserRouter>
   )
 }
 

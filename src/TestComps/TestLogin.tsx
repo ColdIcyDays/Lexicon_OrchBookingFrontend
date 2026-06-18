@@ -1,12 +1,16 @@
 ﻿import {useEffect, useState} from "react";
 
-import type {AccountInfo, GetBlogResult, ModifyUserRole} from "./TestTypes.tsx";
+import type {AccountInfo, GetBlogResult, GetProgramsResult, GetShowsResult, ModifyUserRole} from "./TestTypes.tsx";
 import {TestBlogThumb} from "./TestBlogThumb.tsx";
+import {TestProgramThumb} from "./TestProgramThumb.tsx";
+import {TestShowThumb} from "./TestShowThumb.tsx";
 
 
 export function TestLogin(){
     const [isLoginSuccess, setIsLoginSuccess] = useState<boolean>(false);
     const [getBlogsResult, setGetBlogsResult] = useState<GetBlogResult>();
+    const [getShowsResult, setGetShowsResult] = useState<GetShowsResult>();
+    const [getProgramResult, setGetProgramResult] = useState<GetProgramsResult>();
     const [hasCheckedAuth, setHasCheckedAuth] = useState<boolean>(false);
     const [canModify, setCanModifiy] = useState<boolean>(false);
     const [currentAccount, setCurrentAccount] = useState<AccountInfo>();
@@ -16,7 +20,7 @@ export function TestLogin(){
         const form = event.currentTarget;
         const foundData = new FormData(form);
         foundData.set("rememberMe", (foundData.get("rememeberMe") === "on" ? "true" : "false"));
-        fetch('http://localhost:5003/Account/Auth/Login', {method: 'post', body: foundData, credentials: 'include'})
+        fetch('/Account/Auth/Login', {method: 'post', body: foundData, credentials: 'include'})
             .then(r => {
                 setIsLoginSuccess(r.ok);
 
@@ -76,6 +80,47 @@ export function TestLogin(){
             });
     }
 
+    function HandleUploadShow(event: React.SyntheticEvent<HTMLFormElement>) {
+        console.log("Handling upload show!")
+        event.preventDefault();
+        const form = event.currentTarget;
+        const foundData = new FormData(form);
+        fetch('/api/Show/UploadShow', {method: 'post', body: foundData, credentials: 'include'})
+            .then(r => {
+                FetchProgramsAndShows();
+            });
+    }
+
+    function HandleUploadProgram(event: React.SyntheticEvent<HTMLFormElement>) {
+        console.log("Handling upload program!")
+        event.preventDefault();
+        const form = event.currentTarget;
+        const foundData = new FormData(form);
+        fetch('/api/Show/UploadProgram', {method: 'post', body: foundData, credentials: 'include'})
+            .then(r => {
+                FetchProgramsAndShows();
+            });
+    }
+
+    function FetchProgramsAndShows(){
+        const params = new URLSearchParams();
+        params.set("PerPage", "2");
+        params.set("Page", "0");
+        params.set("SortMethod", "date");
+
+        fetch('/api/Show/GetShows', {method: 'get'})
+            .then(async result => {
+                setGetShowsResult((await result.json()) as GetShowsResult);
+                console.log("Got some blogs!")
+            });
+
+        fetch('/api/Show/GetPrograms', {method: 'get'})
+            .then(async result => {
+                setGetProgramResult((await result.json()) as GetProgramsResult);
+                console.log("Got some blogs!")
+            });
+    }
+
 
     useEffect(() => {
 /*        let headers = new Headers();
@@ -122,7 +167,7 @@ export function TestLogin(){
     })
 
     return (
-      <>
+      <div className='font-pilant'>
           <div>
               <form className={"ml-4"} id={"uploadBlog"} onSubmit={HandleUploadBlog} action={""}>
                   <h1>Blog</h1>
@@ -147,11 +192,11 @@ export function TestLogin(){
         <div className="flex flex-col">
             {canModify ?
                 <div>
-                    <h1>You are admin!</h1>
+                    <h1 className='font-pilant'>You are admin!</h1>
                 </div>
                 :
                 <div>
-                    <h1>You are NOT admin!</h1>
+                    <h1 className='font-pilant'>You are NOT admin!</h1>
                 </div>}
             {isLoginSuccess && currentAccount ?
                 <div>
@@ -210,7 +255,69 @@ export function TestLogin(){
                 <h1>All blogs are here: </h1>
                 {getBlogsResult?.foundBlogs.map((data, idx) => <TestBlogThumb key={data.id} BlogData={data}/>)}
             </div>
+
+            <div>
+                <h1>Lets see those programs!</h1>
+                <div>
+                    {getProgramResult?.foundPrograms.map((data, idx) => <TestProgramThumb key={data.id} programResult={data}/>)}
+                </div>
+                <h1>Here comes the shows!</h1>
+                <div>
+
+                </div>
+                    {getShowsResult?.foundShows.map((data, idx) => <TestShowThumb key={data.id} someShow={data}/>)}
+                <div>
+                    <h1>Here you can add your own shows and programs!</h1>
+
+                    <div className={'flex flex-row'}>
+                        <form className={"ml-4"} id={"uploadProgram"} onSubmit={HandleUploadProgram} action={""}>
+                            <h1>Program</h1>
+                            <div>
+                                <label className={"block"}>Title</label>
+                                <input className={"border"} type={"text"} form={"uploadProgram"} name={"title"}/>
+                            </div>
+
+                            <div>
+                                <label className={"block"}>Description</label>
+                                <input className={"border"} type={"text"} form={"uploadProgram"} name={"description"}/>
+                            </div>
+
+                            <div>
+                                <label className={"block"}>Length (min)</label>
+                                <input className={"border"} type={"number"} form={"uploadProgram"} name={"lengthInMinutes"}/>
+                            </div>
+
+                            <input type={"submit"} form={"uploadProgram"} className={"cursor-pointer"}/>
+                        </form>
+
+                        <form className={"ml-4"} id={"uploadShow"} onSubmit={HandleUploadShow} action={""}>
+                            <h1>Show</h1>
+                            <div>
+                                <label className={"block"}>Program ID</label>
+                                <input className={"border"} type={"number"} form={"uploadShow"} name={"programId"}/>
+                            </div>
+
+                            <div>
+                                <label className={"block"}>Venue name</label>
+                                <input className={"border"} type={"text"} form={"uploadShow"} name={"venueName"}/>
+                            </div>
+
+                            <div>
+                                <label className={"block"}>Venue address</label>
+                                <input className={"border"} type={"text"} form={"uploadShow"} name={"venueAddress"}/>
+                            </div>
+
+                            <div>
+                                <label className={"block"}>Show date</label>
+                                <input className={"border"} type={"datetime-local"} form={"uploadShow"} name={"showDate"}/>
+                            </div>
+
+                            <input type={"submit"} form={"uploadShow"} className={"cursor-pointer"}/>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
-      </>
+      </div>
     );
 }
