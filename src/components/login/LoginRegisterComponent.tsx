@@ -19,7 +19,7 @@ export function LoginRegisterComponent({ aShowLogin } : { aShowLogin : boolean }
         return (
             <div className={"grid grid-cols-2 bg-secondary p-8 w-full h-full"}>
                 <div className={"w-full h-full bg-white p-4"}>
-                    <form className={"flex flex-col h-full"} onSubmit={HandleLogin}>
+                    <form className={"flex flex-col h-full"} id={"login"} onSubmit={HandleLogin}>
                         <h1>Login</h1>
                         <div>
                             <label className={"block"}>Username/Email</label>
@@ -28,7 +28,7 @@ export function LoginRegisterComponent({ aShowLogin } : { aShowLogin : boolean }
 
                         <div>
                             <label className={"block"}>Password</label>
-                            <input className={"border"} type={"text"} form={"login"} name={"password"}/>
+                            <input className={"border"} type={"password"} form={"login"} name={"password"}/>
                         </div>
 
                         <div>
@@ -37,7 +37,7 @@ export function LoginRegisterComponent({ aShowLogin } : { aShowLogin : boolean }
                         </div>
 
                         <div className={"mt-auto"}>
-                            <input type={"submit"} form={"login"} className={"cursor-pointer"}/>
+                            <input type={"submit"} form={"login"} value={"Submit"} className={"cursor-pointer"}/>
                         </div>
                     </form>
                 </div>

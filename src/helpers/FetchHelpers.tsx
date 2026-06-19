@@ -26,6 +26,15 @@ export abstract class OrchBookHelper {
         return fetch(OrchBookHelper.SetCorrectURL(input), {method: 'get', credentials: "include"});
     }
 
+    public static OrchFetchGetPagination(input : RequestInfo | URL, aPerPage : number, aPage : number, aSortMethod : string = "date") : Promise<Response> {
+        const params = new URLSearchParams();
+        params.set("PerPage", aPerPage.toString());
+        params.set("Page", aPage.toString());
+        params.set("SortMethod", aSortMethod);
+
+        return fetch(OrchBookHelper.SetCorrectURL(input) + "?" + params, {method: 'get', credentials: "include"});
+    }
+
     public static OrchFetchPost(input : RequestInfo | URL, aBody : BodyInit) : Promise<Response> {
         return fetch(OrchBookHelper.SetCorrectURL(input), {method: 'post', credentials: "include", body: aBody});
     }

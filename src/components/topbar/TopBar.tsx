@@ -1,7 +1,9 @@
 ﻿import {Link} from 'react-router-dom';
+import {AuthCompGuard} from "../guard/AuthCompGuard.tsx";
+import {AuthStatus} from "./AuthStatus.tsx";
 export function TopBar() {
     return (
-        <div className={"min-h-32 w-full border-b border-dotted border-black/25 grid grid-rows-2"}>
+        <div className={"min-h-64 w-full border-b border-dotted border-black/25 grid grid-rows-2"}>
             <div className={"flex flex-row"}>
                 <div className={"bg-lightaccent w-[128px] h-full ml-auto"}>
                     <Link to={"/Home"}>
@@ -10,24 +12,21 @@ export function TopBar() {
                         </div>
                     </Link>
                 </div>
-                <div className={"bg-lightaccent w-[128px] h-auto ml-auto rounded-bl-2xl "}>
+                <div className={"bg-lightaccent w-[128px] h-1/2 ml-auto rounded-bl-2xl "}>
                     <Link to={"/User"} className={"h-full w-full flex pr-2"}>
-                        <div className={"w-max h-max m-auto flex flex-row gap-2"}>
-                            <div className={"w-8 h-8 bg-white rounded-md my-auto"}/>
-                            <h4 className={"text-white my-auto"}>Login</h4>
-                        </div>
+                        <AuthCompGuard LoggedInComp={<AuthStatus IsAuthed={true}/>} LoggedOutComp={<AuthStatus IsAuthed={false}/>}/>
                     </Link>
                 </div>
             </div>
-            <div className={"w-full h-full flex"}>
-                {/* TODO: How should i center this? TICKETS AND SHOWS needs to be centered, not the entire div...*/}
-                <div className={"w-max flex flex-row mx-auto gap-6 my-auto"}>
+            {/* TODO: pl-13 centers the div on 'TICKETS AND SHOWS'. Any better way of doing this?*/}
+            <div className={"w-full h-full flex pl-13"}>
+                <div className={"w-max flex flex-row mx-auto gap-12 my-auto text-2xl"}>
                     <div className={"mt-auto"}>
                         <Link to={"/Blog"}>
                             BLOG
                         </Link>
                     </div>
-                    <div className={"text-xl mt-auto"}>
+                    <div className={"text-3xl mt-auto"}>
                         <Link to={"/Tickets&Shows"}>
                             TICKETS AND SHOWS
                         </Link>

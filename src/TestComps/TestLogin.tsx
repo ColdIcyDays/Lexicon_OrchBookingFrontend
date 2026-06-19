@@ -126,13 +126,17 @@ export function TestLogin(){
 /*        let headers = new Headers();
         headers.append("Access-Control-Allow-Origin", "http://localhost:5294/");
         headers.append("Access-Control-Allow-Credentials", "true");*/
-
+        let ignore = false;
 
         if (!hasCheckedAuth)
         {
             FetchBlogs();
             fetch('/Account/Auth/CheckAuth', {method: 'get', credentials: 'include'})
                 .then(r => {
+                    if (ignore)
+                    {
+                        return;
+                    }
                     console.log("Response recieved!")
                     console.log(r);
                     setIsLoginSuccess(r.ok);
@@ -164,6 +168,8 @@ export function TestLogin(){
                     }
                 })
         }
+
+        return () => { ignore = true; }
     })
 
     return (

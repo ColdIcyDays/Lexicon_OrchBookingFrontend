@@ -1,15 +1,23 @@
 ﻿import {OrchBookHelper} from "../../helpers/FetchHelpers.tsx";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Navigate} from "react-router-dom";
 
 export function ProfileContainer() {
+    const [hasRecievedCheck, setHasRecievedCheck] = useState<boolean>(false);
     const [isAuthed, setIsAuthed] = useState<boolean>(false);
-    const [isWaiting, setIsWaiting] = useState<boolean>(false);
-    OrchBookHelper.OrchFetchGet('/Account/Auth/CheckAuth').then(r =>
+    const [isWaiting, setIsWaiting] = useState<boolean>(true);
+
+    console.log("Is waiting state: " + isWaiting);
+
+    if (!hasRecievedCheck)
     {
-        setIsWaiting(true);
-        setIsAuthed(r.ok);
-    });
+        OrchBookHelper.OrchFetchGet('/Account/Auth/CheckAuth').then(r =>
+        {
+            setIsWaiting(false);
+            setIsAuthed(r.ok);
+            setHasRecievedCheck(true)
+        });
+    }
 
     if (isWaiting)
     {
@@ -19,6 +27,8 @@ export function ProfileContainer() {
             </div>
         );
     }
+
+    console.log("Checked auth is: " + isAuthed);
 
     if (!isAuthed)
     {
