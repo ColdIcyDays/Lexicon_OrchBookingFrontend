@@ -40,8 +40,6 @@ export function ProfileContainer() {
         );
     }
 
-    console.log("Checked auth is: " + isAuthed);
-
     if (!isAuthed)
     {
         return (
