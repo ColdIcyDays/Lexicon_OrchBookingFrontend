@@ -10,23 +10,28 @@ export function ProfileRole({ Info } : { Info : GetAccountInfoResult }) {
     }
     else
     {
+        /* TODO: This is a mess... CLEAN IT UP! IDK if i should handle multiple roles...*/
         Info.roles.forEach((val) => {
-            if (highestRole.length <= 0)
+            if (val.toLowerCase() === "admin")
             {
-                if (val.toLowerCase() === "admin")
-                {
-                    highestRole = "Admin";
-                }
-                else if (val.toLowerCase() === "showmanager")
-                {
-                    highestRole = "Show manager";
-                }
-                else if (val.toLowerCase() === "blogwriter")
-                {
-                    highestRole = "Blog writer"
-                }
+                highestRole = "Admin";
+            }
+
+            if (highestRole != "Admin" && val.toLowerCase() === "showmanager")
+            {
+                highestRole = "Show manager";
+            }
+
+            if (highestRole != "Admin" && val.toLowerCase() === "blogwriter")
+            {
+                highestRole = "Blog writer"
             }
         })
+
+        if (highestRole.length <= 0)
+        {
+            highestRole = "Regular user"
+        }
     }
 
     if (highestRole.length <= 0)
