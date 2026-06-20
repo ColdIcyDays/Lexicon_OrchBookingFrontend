@@ -9,6 +9,9 @@ import {BlogContainer} from "./components/blog/BlogContainer.tsx";
 import {PurchaseContainer} from "./components/tickets/purchase/PurchaseContainer.tsx";
 import {LoginContainer} from "./components/login/LoginContainer.tsx";
 import {ProfileContainer} from "./components/profile/ProfileContainer.tsx";
+import {AccountInfo} from "./components/profile/AccountInfo.tsx";
+import {PurchasedTickets} from "./components/profile/PurchasedTickets.tsx";
+import {LogOutPage} from "./components/profile/LogOutPage.tsx";
 function App() {
   return (
     <BrowserRouter>
@@ -23,9 +26,13 @@ function App() {
                   <Route path={":article"} element={null}/>
               </Route>
 
-              <Route path={"/User"} element={<ProfileContainer/>}/>
+              <Route path={"/User"} element={<ProfileContainer/>}>
+                  <Route path={"/User/AccountInfo"} element={<AccountInfo/>}/>
+                  <Route path={"/User/PurchasedTickets"} element={<PurchasedTickets/>}/>
+              </Route>
               <Route path={"/User/Login"} element={<LoginContainer/>}/>
               <Route path={"/User/Register"} element={<LoginContainer/>}/>
+              <Route path={"/User/Logout"} element={<LogOutPage/>}/>
 
               <Route path={"/Tickets&Shows"} element={<TicketsContainer/>}/>
               <Route path={"/Tickets&Shows/PurchaseTicket"} element={<PurchaseContainer/>}/>

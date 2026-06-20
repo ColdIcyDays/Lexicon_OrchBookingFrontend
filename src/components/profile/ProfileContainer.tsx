@@ -50,8 +50,13 @@ export function ProfileContainer() {
     }
 
     return (
-        <div className={"w-full h-full;"}>
-            <h1>Welcome to the profile!</h1>
+        <div className={"w-full h-full grow flex flex-col"}>
+            <div className={"flex flex-row h-full grow"}>
+                <div className={"px-16 py-16 flex"}>
+                    <ProfileMenuContainer/>
+                </div>
+                <Outlet/>
+            </div>
         </div>
     );
 }

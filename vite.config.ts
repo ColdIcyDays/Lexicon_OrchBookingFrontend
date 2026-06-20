@@ -25,6 +25,16 @@ export default defineConfig(({ mode }) => {
           changeOrigin: true,
           secure: false
         },
+        '/Account/Auth/Logout': {
+          target: currentTarget,
+          changeOrigin: true,
+          secure: false,
+          configure: (proxy, _options) => {
+            proxy.on('proxyReq', (proxyReq, req, res) => {
+              proxyReq.setHeader("origin", currentTarget);
+            })
+          }
+        },
         '/api/Show/UploadShow': {
           target: currentTarget,
           changeOrigin: true,
