@@ -35,7 +35,12 @@ export abstract class OrchBookHelper {
         return fetch(OrchBookHelper.SetCorrectURL(input) + "?" + params, {method: 'get', credentials: "include"});
     }
 
-    public static OrchFetchPost(input : RequestInfo | URL, aBody : BodyInit) : Promise<Response> {
+    public static OrchFetchPost(input : RequestInfo | URL, aBody : BodyInit | null) : Promise<Response> {
+        if (aBody === null)
+        {
+            return fetch(OrchBookHelper.SetCorrectURL(input), {method: 'post', credentials: "include"});
+        }
+
         return fetch(OrchBookHelper.SetCorrectURL(input), {method: 'post', credentials: "include", body: aBody});
     }
 
