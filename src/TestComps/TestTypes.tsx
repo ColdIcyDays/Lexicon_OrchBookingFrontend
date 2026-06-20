@@ -1,10 +1,5 @@
 ﻿
-export type AccountInfo = {
-    username: string,
-    email: string,
-    roles: string[]
 
-}
 
 export type ModifyUserRole = {
     targetUsername: string,
