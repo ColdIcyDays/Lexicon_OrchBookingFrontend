@@ -1,18 +1,31 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {OrchBookHelper} from "../../helpers/FetchHelpers.tsx";
-import {Navigate} from "react-router-dom";
+import {Navigate, useLocation} from "react-router-dom";
 
 export function AuthCompGuard({ LoggedInComp, LoggedOutComp } : { LoggedInComp : React.ReactNode, LoggedOutComp : React.ReactNode }){
     const [isAuthed, setIsAuthed] = useState<boolean>(false);
     const [isWaiting, setIsWaiting] = useState<boolean>(true);
 
-    console.log("Is waiting state: " + isWaiting);
+    const location = useLocation();
 
-    OrchBookHelper.OrchFetchGet('/Account/Auth/CheckAuth').then(r =>
+    useEffect(() =>
     {
-        setIsWaiting(false);
-        setIsAuthed(r.ok);
-    });
+        let ignore = false;
+        OrchBookHelper.OrchFetchGet('/Account/Auth/CheckAuth').then(r =>
+        {
+            if (!ignore)
+            {
+                setIsWaiting(false);
+                setIsAuthed(r.ok);
+            }
+        });
+
+        return () =>
+        {
+            ignore = true;
+        }
+
+    }, [location.pathname]);
 
     if (isWaiting)
     {
@@ -22,8 +35,6 @@ export function AuthCompGuard({ LoggedInComp, LoggedOutComp } : { LoggedInComp :
             </div>
         );
     }
-
-    console.log("Checked auth is: " + isAuthed);
 
     if (isAuthed)
     {
