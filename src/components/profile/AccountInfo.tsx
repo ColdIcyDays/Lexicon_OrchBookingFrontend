@@ -2,46 +2,10 @@
 import {OrchBookHelper} from "../../helpers/FetchHelpers.tsx";
 import type {GetAccountInfoResult} from "../../Types/UserTypes.tsx";
 import {ProfileRole} from "./ProfileRole.tsx";
+import {OrchLocalStorageHelpers} from "../../helpers/OrchLocalStorageHelpers.tsx";
 
 export function AccountInfo(){
-    const [accountInfoResult, setAccountInfoResult] = useState<GetAccountInfoResult | null>(null)
-    const [gotResponse, setGotResponse] = useState<boolean>(false)
-
-    useEffect(() =>
-    {
-        let ignore = false;
-        OrchBookHelper.OrchFetchGet("/Account/Auth/AccountInfo")
-            .then(r =>
-            {
-                if (ignore)
-                {
-                    return;
-                }
-
-
-                if (r.ok)
-                {
-                    r.json().then(value => {
-                        setAccountInfoResult(value as GetAccountInfoResult)
-                        setGotResponse(true);
-                    })
-                }
-                else
-                {
-                    setGotResponse(true);
-                }
-            })
-        return () => {
-            ignore = true;
-        }
-    }, []);
-
-    if (!gotResponse)
-    {
-        return (
-            <h3>Loading account info...</h3>
-        );
-    }
+    const [accountInfoResult, setAccountInfoResult] = useState<GetAccountInfoResult | null>(OrchLocalStorageHelpers.GetAccountInfo())
 
     if (accountInfoResult === null)
     {

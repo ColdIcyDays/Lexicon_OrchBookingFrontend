@@ -2,6 +2,7 @@
 import {useEffect, useState} from "react";
 import {Navigate, Outlet, useLocation} from "react-router-dom";
 import {ProfileMenuContainer} from "./ProfileMenuContainer.tsx";
+import {OrchLocalStorageHelpers} from "../../helpers/OrchLocalStorageHelpers.tsx";
 
 export function ProfileContainer() {
     const [hasRecievedCheck, setHasRecievedCheck] = useState<boolean>(false);
@@ -10,16 +11,42 @@ export function ProfileContainer() {
 
     console.log("Is waiting state: " + isWaiting);
 
+    /* TODO: Move this into a seperate component, so we don't do this when we are not logged in and trying to access login. */
     useEffect(() => {
         console.log("[UseEffect] Checking auth!")
+
         let ignore = false;
         OrchBookHelper.OrchFetchGet('/Account/Auth/CheckAuth').then(r =>
         {
             if (!ignore)
             {
-                setIsWaiting(false);
-                setIsAuthed(r.ok);
-                setHasRecievedCheck(true)
+                const accountInfo = OrchLocalStorageHelpers.GetAccountInfo();
+                if (r.ok && accountInfo === null)
+                {
+                    OrchBookHelper.OrchFetchGet("/Account/Auth/AccountInfo")
+                        .then(accountR =>
+                        {
+                            if (!ignore)
+                            {
+                                accountR.json().then(j =>
+                                {
+                                    if (!ignore)
+                                    {
+                                        OrchLocalStorageHelpers.SaveAccountInfoLocally(j);
+                                        setIsWaiting(false);
+                                        setIsAuthed(r.ok);
+                                        setHasRecievedCheck(true)
+                                    }
+                                })
+                            }
+                        })
+                }
+                else
+                {
+                    setIsWaiting(false);
+                    setIsAuthed(r.ok);
+                    setHasRecievedCheck(true)
+                }
             }
         });
 
