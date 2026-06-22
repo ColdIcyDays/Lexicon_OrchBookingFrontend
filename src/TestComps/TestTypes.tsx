@@ -15,17 +15,7 @@ export type Show = {
     showDate : Date
 }
 
-export type OrchProgram = {
-    id : number
-    title : string
-    description : string
-    lengthInMinutes : number
-}
 
-export type GetProgramsResult = {
-    page : number
-    foundPrograms : OrchProgram[]
-}
 
 export type GetShowsResult = {
     page : number
