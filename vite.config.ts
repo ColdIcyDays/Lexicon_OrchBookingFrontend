@@ -25,12 +25,34 @@ export default defineConfig(({ mode }) => {
           changeOrigin: true,
           secure: false
         },
-        '/Account/Auth/Logout': {
+        '/api/Show/GetVenues': {
           target: currentTarget,
           changeOrigin: true,
           secure: false,
           configure: (proxy, _options) => {
             proxy.on('proxyReq', (proxyReq, req, res) => {
+              proxyReq.setHeader("origin", currentTarget);
+            })
+          }
+        },
+        '/api/Show/UploadVenue': {
+          target: currentTarget,
+          changeOrigin: true,
+          secure: false,
+          configure: (proxy, _options) => {
+            proxy.on('proxyReq', (proxyReq, req, res) => {
+              proxyReq.setHeader("origin", currentTarget);
+            })
+          }
+        },
+        '/Account/Auth/Logout': {
+          target: currentTarget,
+          changeOrigin: true,
+          secure: false,
+          configure: (proxy, _options) =>
+          {
+            proxy.on('proxyReq', (proxyReq, req, res) =>
+            {
               proxyReq.setHeader("origin", currentTarget);
             })
           }
