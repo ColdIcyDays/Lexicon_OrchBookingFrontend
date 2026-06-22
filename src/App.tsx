@@ -12,6 +12,12 @@ import {ProfileContainer} from "./components/profile/ProfileContainer.tsx";
 import {AccountInfo} from "./components/profile/AccountInfo.tsx";
 import {PurchasedTickets} from "./components/profile/PurchasedTickets.tsx";
 import {LogOutPage} from "./components/profile/LogOutPage.tsx";
+import {ManageBlogs} from "./components/profile/manage/blog/ManageBlogs.tsx";
+import {AddBlog} from "./components/profile/manage/blog/AddBlog.tsx";
+import {ManageVenues} from "./components/profile/manage/venue/ManageVenues.tsx";
+import {AddVenue} from "./components/profile/manage/venue/AddVenue.tsx";
+import {ManagePrograms} from "./components/profile/manage/program/ManagePrograms.tsx";
+import {AddProgram} from "./components/profile/manage/program/AddProgram.tsx";
 function App() {
   return (
     <BrowserRouter>
@@ -29,6 +35,12 @@ function App() {
               <Route path={"/User"} element={<ProfileContainer/>}>
                   <Route path={"/User/AccountInfo"} element={<AccountInfo/>}/>
                   <Route path={"/User/PurchasedTickets"} element={<PurchasedTickets/>}/>
+                  <Route path={"/User/ManageBlogs"} element={<ManageBlogs/>}/>
+                  <Route path={"/User/ManageBlogs/AddBlog"} element={<AddBlog/>}/>
+                  <Route path={"/User/ManageVenues"} element={<ManageVenues/>}/>
+                  <Route path={"/User/ManageVenues/AddVenue"} element={<AddVenue/>}/>
+                  <Route path={"/User/ManagePrograms/"} element={<ManagePrograms/>}/>
+                  <Route path={"/User/ManagePrograms/AddProgram"} element={<AddProgram/>}/>
               </Route>
               <Route path={"/User/Login"} element={<LoginContainer/>}/>
               <Route path={"/User/Register"} element={<LoginContainer/>}/>
