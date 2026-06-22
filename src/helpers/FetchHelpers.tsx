@@ -22,6 +22,10 @@ export abstract class OrchBookHelper {
         return fetch(OrchBookHelper.SetCorrectURL(input), init);
     }
 
+    public static OrchFetchCheckAuth() : Promise<Response> {
+        return fetch(OrchBookHelper.SetCorrectURL("/Account/Auth/CheckAuth"), {method: 'get', credentials: "include"});
+    }
+
     public static OrchFetchGet(input : RequestInfo | URL) : Promise<Response> {
         return fetch(OrchBookHelper.SetCorrectURL(input), {method: 'get', credentials: "include"});
     }
