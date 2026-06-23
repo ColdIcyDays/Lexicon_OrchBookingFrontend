@@ -19,7 +19,7 @@ export function ProfileMenuContainer() {
             <ProfileMenuItem ItemName={"Manage BLOGS"} Destination={"/User/ManageBlogs"}/>
             <ProfileMenuItem ItemName={"Manage PROGRAMS"} Destination={"/User/ManagePrograms"}/>
             <ProfileMenuItem ItemName={"Manage VENUES"} Destination={"/User/ManageVenues"}/>
-            <ProfileMenuItem ItemName={"Manage SHOWS"} Destination={"/User/PurchasedTickets"}/>
+            <ProfileMenuItem ItemName={"Manage SHOWS"} Destination={"/User/ManageShows"}/>
 
             <input type={"button"} onClick={HandleLogout} value={"Logout"} className={"mt-auto cursor-pointer border"}/>
         </div>

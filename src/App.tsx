@@ -18,6 +18,8 @@ import {ManageVenues} from "./components/profile/manage/venue/ManageVenues.tsx";
 import {AddVenue} from "./components/profile/manage/venue/AddVenue.tsx";
 import {ManagePrograms} from "./components/profile/manage/program/ManagePrograms.tsx";
 import {AddProgram} from "./components/profile/manage/program/AddProgram.tsx";
+import {ManageShows} from "./components/profile/manage/show/ManageShows.tsx";
+import {AddShow} from "./components/profile/manage/show/AddShow.tsx";
 function App() {
   return (
     <BrowserRouter>
@@ -41,6 +43,8 @@ function App() {
                   <Route path={"/User/ManageVenues/AddVenue"} element={<AddVenue/>}/>
                   <Route path={"/User/ManagePrograms/"} element={<ManagePrograms/>}/>
                   <Route path={"/User/ManagePrograms/AddProgram"} element={<AddProgram/>}/>
+                  <Route path={"/User/ManageShows/"} element={<ManageShows/>}/>
+                  <Route path={"/User/ManageShows/AddShow"} element={<AddShow/>}/>
               </Route>
               <Route path={"/User/Login"} element={<LoginContainer/>}/>
               <Route path={"/User/Register"} element={<LoginContainer/>}/>
