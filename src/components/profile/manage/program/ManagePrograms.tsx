@@ -9,7 +9,7 @@ export function ManagePrograms(){
 
     const [programResult, setProgramResult] = useState<GetProgramsResult>();
     const [gotResult, setGotResult] = useState<boolean>(false);
-    let navigate = useNavigate();
+    const navigate = useNavigate();
 
     useEffect(() =>
     {
