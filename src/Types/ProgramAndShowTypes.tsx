@@ -40,3 +40,17 @@ export type VenueTicketPrice = {
     ticketName : string
     ticketCost : number
 }
+
+export type Show = {
+    id : number
+    programId : number
+    program : OrchProgram
+    venueId : number
+    venue : Venue
+    showDate : Date
+}
+
+export type GetShowsResult = {
+    page : number
+    foundShows : Show[]
+}
