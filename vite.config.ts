@@ -25,6 +25,16 @@ export default defineConfig(({ mode }) => {
           changeOrigin: true,
           secure: false
         },
+        '/api/Show/UploadShow': {
+          target: currentTarget,
+          changeOrigin: true,
+          secure: false,
+          configure: (proxy, _options) => {
+            proxy.on('proxyReq', (proxyReq, req, res) => {
+              proxyReq.setHeader("origin", currentTarget);
+            })
+          }
+        },
         '/api/Show/GetVenues': {
           target: currentTarget,
           changeOrigin: true,
@@ -88,6 +98,26 @@ export default defineConfig(({ mode }) => {
           }
         },
         '/api/Show/GetPrograms': {
+          target: currentTarget,
+          changeOrigin: true,
+          secure: false,
+          configure: (proxy, _options) => {
+            proxy.on('proxyReq', (proxyReq, req, res) => {
+              proxyReq.setHeader("origin", currentTarget);
+            })
+          }
+        },
+        '/api/Show/ShowsAtVenue': {
+          target: currentTarget,
+          changeOrigin: true,
+          secure: false,
+          configure: (proxy, _options) => {
+            proxy.on('proxyReq', (proxyReq, req, res) => {
+              proxyReq.setHeader("origin", currentTarget);
+            })
+          }
+        },
+        '/api/Show/ProgramsWithShows': {
           target: currentTarget,
           changeOrigin: true,
           secure: false,
