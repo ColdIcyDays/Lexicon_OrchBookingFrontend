@@ -49,7 +49,7 @@ export abstract class OrchBookHelper {
     }
 
     public static OrchFetchJSONPost(input : RequestInfo | URL, jsonObject : object) : Promise<Response> {
-        return fetch(OrchBookHelper.SetCorrectURL(input), {method: 'post', credentials: "include", body: JSON.stringify(jsonObject)});
+        return fetch(OrchBookHelper.SetCorrectURL(input), {method: 'post', headers: { "Content-Type": "application/json", }, credentials: "include", body: JSON.stringify(jsonObject)});
     }
 }
 
