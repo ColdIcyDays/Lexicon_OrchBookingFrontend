@@ -1,11 +1,24 @@
 ﻿import {Dropdown} from "../../../Dropdown.tsx";
 import {useEffect, useState} from "react";
 import {OrchBookHelper} from "../../../../helpers/FetchHelpers.tsx";
-import type {GetProgramsResult, GetVenuesResult, OrchProgram, Venue} from "../../../../Types/ProgramAndShowTypes.tsx";
+import {
+    type GetProgramsResult,
+    type GetVenuesResult,
+    type OrchProgram, UploadShowRequest,
+    UploadVenueRequest,
+    type Venue
+} from "../../../../Types/ProgramAndShowTypes.tsx";
+import {useNavigate} from "react-router-dom";
 
 export function AddShow(){
     const [programResult, setProgramResult] = useState<Record<string, OrchProgram>>()
     const [venueResult, setVenueResult] = useState<Record<string, Venue>>()
+
+    const [selectedVenue, setSelectedVenue] = useState<Venue | null>();
+    const [selectedProgram, setSelectedProgram] = useState<OrchProgram | null>();
+    const [selectedDate, setSelectedDate] = useState<Date>();
+
+    const navigate = useNavigate();
 
     useEffect(() =>
     {
@@ -72,13 +85,51 @@ export function AddShow(){
         <div>
             <h1 className={"text-4xl my-8"}>Manage SHOWS</h1>
             <div className={"flex gap-4"}>
-                <input type={"datetime-local"}/>
-                <Dropdown RecordData={venueResult}/>
-                <Dropdown RecordData={programResult}/>
+                <input type={"datetime-local"} onChange={(e) => {setSelectedDate(new Date(e.target.value))}}/>
+                <Dropdown RecordData={venueResult} DataSelectedCallback={(currentVenue: Venue) => setSelectedVenue(currentVenue)}/>
+                <Dropdown RecordData={programResult} DataSelectedCallback={(currentProgram: OrchProgram) => setSelectedProgram(currentProgram)}/>
             </div>
-            <input value={"Submit"} type={"button"} className={"cursor-pointer"}/>
+            <input value={"Submit"} type={"button"} className={"cursor-pointer"} onClick={HandleShowSubmit}/>
         </div>
     )
 
-    function HandleSubmit
+    function HandleShowSubmit()
+    {
+        console.log("Handle submit UploadShow started!")
+        if (selectedVenue === null || selectedVenue === undefined)
+        {
+            console.log("Venue is " + selectedVenue);
+            return;
+        }
+
+        if (selectedProgram === null || selectedProgram === undefined)
+        {
+            console.log("Program is " + selectedProgram);
+            return;
+        }
+
+        if (selectedDate === undefined)
+        {
+            console.log("Date is " + selectedDate);
+            return;
+        }
+
+        console.log("Handling upload show!")
+        console.log("Handling upload show!")
+
+        const show = new UploadShowRequest();
+
+        show.programId = selectedProgram.id;
+        show.venueId = selectedVenue.id;
+        show.showDate = selectedDate;
+
+        OrchBookHelper.OrchFetchJSONPost("/api/Show/UploadShow", show)
+            .then(r =>
+            {
+                if (r.ok)
+                {
+                    navigate("/User/ManageShows")
+                }
+            });
+    }
 }

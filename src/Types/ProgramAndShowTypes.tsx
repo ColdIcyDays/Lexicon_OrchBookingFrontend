@@ -54,3 +54,9 @@ export type GetShowsResult = {
     page : number
     foundShows : Show[]
 }
+
+export class UploadShowRequest {
+    public programId : number = 0
+    public venueId : number = 0
+    public showDate : Date = new Date()
+}
